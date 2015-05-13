@@ -15,9 +15,10 @@ LASTY = 0
 LASTC = 0
 
 C = 1
-COLOUR = 1
+COLOUR = 15
 SIZE = 16
 
+RECT (0,0,320,240,TRUE)
 
 
 FOR ROW=0 TO 3 CYCLE
@@ -28,14 +29,14 @@ FOR ROW=0 TO 3 CYCLE
 REPEAT
 
 CYCLE
-  
+
   COLOUR = C
   IF C <> LASTC THEN
     RECT (80,0,240,240,FALSE)
     RECT (0,208,32,32,FALSE)
     UPDATE
   ENDIF
-  
+
   GetMouse(X, Y, B)
 
   IF B THEN
@@ -51,7 +52,7 @@ CYCLE
     IF X>96 AND X <= 304 AND Y>16 AND Y < 232 THEN
       PX = (X/SIZE)>>0
       PY = (Y/SIZE)>>0
-      IF PX <> LASTX OR PY <> LASTY OR C <> LASTC THEN 
+      IF PX <> LASTX OR PY <> LASTY OR C <> LASTC THEN
         RECT ((PX*SIZE)-(SIZE/2),(PY*SIZE)-(SIZE/2),SIZE,SIZE, TRUE)
         RECT ((PX*2)-10,208+(PY*2),2,2,TRUE)
         LASTX = PX
