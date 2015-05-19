@@ -1,0 +1,190 @@
+# Z3D ENGINE
+# FOR FUTURE GAMES
+# ----
+# Krzysztof Jankowski
+
+#
+# SETTINGS
+#
+HGR
+updateMode = 0
+mouseoff
+
+#
+# RENDER VARIABLES
+#
+
+FPS = 16
+frame_ms = 1000/FPS
+last_frame_time = TIME
+dt = 0.01
+horizon = 170
+
+#
+# GAME VARIABLES
+#
+
+z_factor = 1.15
+max_lines = 7
+dim t_lines(max_lines)
+
+left_wing = 0
+right_wing = 0
+pos_x = gwidth/2
+pos_y = 48
+k_x = pos_x
+steer_speed = 18
+accel = 0.25
+
+
+#
+# MAIN LOOP
+#
+
+PROC pre_render()
+
+CYCLE
+  last_frame_time = TIME
+  #cls2
+  PROC inputs()
+  PROC render(dt)
+  UPDATE
+  diff = TIME - last_frame_time
+  dt = diff/1000
+  if diff < frame_ms then
+    wait((frame_ms - diff )/1000)
+  endif
+REPEAT
+
+#
+# RENDER PROCEDURES
+#
+
+DEF PROC pre_render()
+
+  for s = 0 to 64 cycle
+    c = rnd(128)
+    rgbColour(129-c,129-c,129-c)
+    plot(rnd(gwidth),horizon+rnd(gheight-horizon))
+  repeat
+
+  t_lines(0) = 0.1
+  for i = 1 to max_lines cycle
+    t_lines(i) = t_lines(i-1) * z_factor * 1.7
+  repeat
+
+
+
+ENDPROC
+
+#
+#
+
+DEF PROC render(dt)
+
+  PROC r_terrain()
+  PROC r_ship()
+
+ENDPROC
+
+
+#
+#
+
+DEF PROC r_terrain()
+ rgbColour(90,50,50)
+ rect(0,0,gwidth,horizon,true)
+
+ rgbColour(60,0,0)
+  for i = 0 to max_lines cycle
+    z_old = t_lines(i)
+    z_new = z_old * z_factor
+
+    if z_new > horizon then
+      z_new = 1
+    endif
+
+    if z_new - z_old > i+1 * z_factor then
+      t_lines(i) = 0.1
+    endif
+
+    t_lines(i) = z_new
+    z_new = z_new >> 0
+    line(0,horizon-z_new,gwidth,horizon-z_new)
+
+  repeat
+
+ENDPROC
+
+#
+#
+
+DEF PROC r_ship()
+if k_x < pos_x then
+  v = (pos_x-k_x)*accel
+  pos_x = pos_x - v
+  left_wing = - min(4,v>>0)
+  right_wing = min(4,v>>0)
+endif
+if k_x > pos_x then
+  v = (k_x-pos_x)*accel
+  pos_x = pos_x + v
+  left_wing = min(4,v>>0)
+  right_wing = - min(4,v>>0)
+endif
+
+if abs(k_x-pos_x) < 2 then
+  k_x = pos_x
+  left_wing = 0
+  right_wing = 0
+endif
+
+for i = 0 to 1 cycle
+  rgbColour(60,60,255)
+  draw_x = pos_x >> 0
+  draw_y = pos_y
+  if i = 0 then
+    rgbColour(60,0,0)
+    draw_y = draw_y - 14
+  endif
+
+  polyStart
+  polyPlot(draw_x,draw_y)
+  polyPlot(draw_x-16,draw_y-8+left_wing)
+  polyPlot(draw_x+16,draw_y-8+right_wing)
+  polyPlot(draw_x,draw_y)
+  polyEnd
+
+  if i = 1 then
+    rgbColour(96,96,255)
+    polyStart
+    polyPlot(draw_x,draw_y)
+    polyPlot(draw_x-16,draw_y-8+left_wing)
+    polyPlot(draw_x,draw_y-8+(right_wing+left_wing))
+    polyPlot(draw_x,draw_y)
+    polyEnd
+  endif
+repeat
+
+ENDPROC
+
+
+#
+# INPUTS
+#
+
+DEF PROC inputs()
+
+  if scanKeyboard(scanLeft) then
+    if k_x > 16 then
+        k_x = k_x - steer_speed
+    endif
+  endif
+
+  if scanKeyboard(scanRight) then
+    if k_x < gwidth - 16 then
+        k_x = k_x + steer_speed
+    endif
+  endif
+
+ENDPROC
