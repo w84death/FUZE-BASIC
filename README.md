@@ -8,8 +8,13 @@ My BASIC programs for FUZE on Raspberry Pi
 - Xiaomi PowerBank 10400meh
 - Zalman K500
 - FUZE BASIC on X11/TinyWM
+
 Video:
+
 [![Video of mobile setup](http://img.youtube.com/vi/UCXIgp7YjoU/0.jpg)](https://www.youtube.com/watch?v=UCXIgp7YjoU)
+
+
+
 ## APLICATIONS
 
 ### PIXELART PAINTER
