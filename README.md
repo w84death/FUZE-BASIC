@@ -25,6 +25,9 @@ Features:
 - smooth ship movement and vector animation
 - fixed 16fps (best for my display)
 
+[![Video of Space Shooter](http://img.youtube.com/vi/Y27DhsvdfUQ/0.jpg)](http://www.youtube.com/watch?v=T-Y27DhsvdfUQ)
+
+
 ## The MIT License (MIT)
 Copyright (c) 2015 P1X
 
