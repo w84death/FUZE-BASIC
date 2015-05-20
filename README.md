@@ -8,7 +8,8 @@ My BASIC programs for FUZE on Raspberry Pi
 - Xiaomi PowerBank 10400meh
 - Zalman K500
 - FUZE BASIC on X11/TinyWM
-
+Video:
+[![Video of mobile setup](http://img.youtube.com/vi/UCXIgp7YjoU/0.jpg)](https://www.youtube.com/watch?v=UCXIgp7YjoU)
 ## APLICATIONS
 
 ### PIXELART PAINTER
@@ -18,7 +19,7 @@ Simple program to make pixel art. It has 1:1 preview and a 16 colour pallete. Pr
 
 Video:
 
-[![Video of Space Shooter](http://img.youtube.com/vi/ROjCc2gTvk8/0.jpg)](https://www.youtube.com/watch?v=ROjCc2gTvk8)
+[![Video of Pixelart Painter](http://img.youtube.com/vi/ROjCc2gTvk8/0.jpg)](https://www.youtube.com/watch?v=ROjCc2gTvk8)
 
 
 ### GAME ENGINE - SPACE SHOOTER
