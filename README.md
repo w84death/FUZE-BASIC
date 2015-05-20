@@ -16,6 +16,11 @@ My BASIC programs for FUZE on Raspberry Pi
 
 Simple program to make pixel art. It has 1:1 preview and a 16 colour pallete. Pressing [S] will save file "art.bmp" (by ovewriting last one!).
 
+Video:
+
+[![Video of Space Shooter](http://img.youtube.com/vi/ROjCc2gTvk8/0.jpg)](https://www.youtube.com/watch?v=ROjCc2gTvk8)
+
+
 ### GAME ENGINE - SPACE SHOOTER
 ![Imgur](http://i.imgur.com/L9uO1tP.jpg)
 
