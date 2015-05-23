@@ -40,7 +40,7 @@ Video:
 
 [![Video of Space Shooter](http://img.youtube.com/vi/Y27DhsvdfUQ/0.jpg)](http://www.youtube.com/watch?v=Y27DhsvdfUQ)
 
-[![Video of Space Shooter](http://img.youtube.com/vi/XJwBHcKvSO/0.jpg)](http://www.youtube.com/watch?v=XJwBHcKvSO)
+[![Video of Space Shooter](http://img.youtube.com/vi/7O3SHTR9iEc/0.jpg)](http://www.youtube.com/watch?v=7O3SHTR9iEc)
 
 
 ## The MIT License (MIT)
