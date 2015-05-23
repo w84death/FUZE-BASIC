@@ -48,7 +48,7 @@ dim laser_z(max_lasers)
 dim laser_mode(max_lasers)
 weapon_mode = 1
 weapon_reload = -1
-weapon_reload_time = 2
+weapon_reload_time = 3
 
 #
 # MAIN LOOP
@@ -197,14 +197,16 @@ DEF PROC r_weapons()
   rgbColour(255,255,255)
   for i = 0 to max_lasers cycle
     if laser_z(i) > 0 then
-      zf = laser_z(i) * 0.05
+      zf = laser_z(i) * 0.04
       draw_x = laser_x(i) >> 0
+      rgbColour(128,128,128)
       if laser_mode(i) = 2 then
         if i mod 2 = 0 then
-          draw_x = draw_x - 3*zf >> 0
-        else
-          draw_x = draw_x + 3*zf >>0
+          draw_x = draw_x - 3*zf >> 0          
+         else
+          draw_x = draw_x + 3*zf >>0       
         endif
+        rgbColour(192,192,255)
       endif
       draw_y = horizon-laser_z(i) >> 0
 
@@ -263,17 +265,16 @@ ENDPROC
 
 DEF PROC shoot_weapon()
 
-  if weapon_reload < 0 then     
-
-  for i = 0 to max_lasers cycle
-    if laser_z(i) < 0 then
-      laser_z(i) = pos_z-19
-      laser_x(i) = pos_x
-      laser_mode(i) = weapon_mode
-      weapon_reload = weapon_reload_time
-      break
-    endif
-  repeat
-
+  if weapon_reload < 0 then
+    for i = 0 to max_lasers cycle
+      if laser_z(i) < 0 then
+        laser_z(i) = pos_z-19
+        laser_x(i) = pos_x
+        laser_mode(i) = weapon_mode
+        weapon_reload = weapon_reload_time-weapon_mode
+        break
+      endif
+    repeat
   endif
+
 ENDPROC
