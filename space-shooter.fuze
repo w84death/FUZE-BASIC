@@ -37,10 +37,15 @@ left_wing = 0
 right_wing = 0
 pos_x = gwidth/2
 pos_y = 48
+pos_z = horizon-pos_y
 k_x = pos_x
 steer_speed = 18
 accel = 0.25
 
+max_lasers=128
+dim laser_x(max_lasers)
+dim laser_z(max_lasers)
+weapon_mode = 1
 
 #
 # MAIN LOOP
@@ -53,6 +58,7 @@ CYCLE
   #cls2
   PROC inputs()
   PROC render(dt)
+
   UPDATE
   diff = TIME - last_frame_time
   dt = diff/1000
@@ -79,6 +85,11 @@ DEF PROC pre_render()
   repeat
 
 
+  # fill lasers
+  for i = 0 to max_lasers cycle    
+    laser_x(i) = -1
+    laser_z(i) = -1 
+  repeat
 
 ENDPROC
 
@@ -88,8 +99,8 @@ ENDPROC
 DEF PROC render(dt)
 
   PROC r_terrain()
+  PROC r_weapons()
   PROC r_ship()
-
 ENDPROC
 
 
@@ -149,6 +160,7 @@ DEF PROC r_ship()
 
   for i = 0 to 1 cycle
     draw_y = pos_y >> 0
+    rgbColour(128,128,255)
     if i = 0 then
       rgbColour(60,0,0)
       draw_y = draw_y - 14
@@ -173,6 +185,39 @@ DEF PROC r_ship()
 ENDPROC
 
 
+DEF PROC r_weapons()
+
+  rgbColour(255,255,255)
+  for i = 0 to max_lasers cycle
+    if laser_z(i) > 0 then
+      zf = laser_z(i) * 0.05
+      draw_x = laser_x(i) >> 0
+      if weapon_mode = 2 then
+        if i mod 2 = 0 then
+          draw_x = draw_x - 3*zf >> 0
+        else
+          draw_x = draw_x + 3*zf >>0
+        endif
+      endif
+      draw_y = horizon-laser_z(i) >> 0
+      
+      polyStart
+        polyPlot(draw_x-(zf*0.5),draw_y)
+        polyPlot(draw_x-(zf*0.5),draw_y-(zf*zf))
+        polyPlot(draw_x+zf,draw_y-(zf*zf))
+        polyPlot(draw_x+zf,draw_y)
+        polyPlot(draw_x-(zf*0.5),draw_y)
+      polyEnd
+      laser_z(i) = laser_z(i)/z_factor
+      if laser_z(i) < 3 then
+        laser_z(i) = -1
+        laser_x(i) = -1
+      endif
+    endif
+  repeat
+
+ENDPROC
+
 #
 # INPUTS
 #
@@ -191,4 +236,32 @@ DEF PROC inputs()
     endif
   endif
 
+  if scanKeyboard(scanSpace) then
+    PROC shoot_weapon()
+  endif
+
+  if scanKeyboard(scan1) then
+    weapon_mode = 1
+  endif
+
+  if scanKeyboard(scan2) then
+    weapon_mode = 2
+  endif
+
+ENDPROC
+
+#
+# WEAPONS
+#
+
+DEF PROC shoot_weapon()
+
+  for i = 0 to max_lasers cycle
+    if laser_z(i) < 0 then
+      laser_z(i) = pos_z-19
+      laser_x(i) = pos_x
+      break
+    endif
+  repeat  
+  
 ENDPROC
