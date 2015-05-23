@@ -42,11 +42,13 @@ k_x = pos_x
 steer_speed = 18
 accel = 0.25
 
-max_lasers=128
+max_lasers=24
 dim laser_x(max_lasers)
 dim laser_z(max_lasers)
 dim laser_mode(max_lasers)
 weapon_mode = 1
+weapon_reload = -1
+weapon_reload_time = 2
 
 #
 # MAIN LOOP
@@ -156,12 +158,12 @@ DEF PROC r_ship()
     right_wing = 0
   endif
 
-  rgbColour(60,60,255)
+  rgbColour(0,0,255)
   draw_x = pos_x >> 0
 
   for i = 0 to 1 cycle
     draw_y = pos_y >> 0
-    rgbColour(128,128,255)
+    rgbColour(96,96,255)
     if i = 0 then
       rgbColour(60,0,0)
       draw_y = draw_y - 14
@@ -175,7 +177,7 @@ DEF PROC r_ship()
     polyEnd
   repeat
 
-  rgbColour(96,96,255)
+  rgbColour(128,128,255)
   polyStart
     polyPlot(draw_x,draw_y)
     polyPlot(draw_x-16,draw_y-8+left_wing)
@@ -187,6 +189,10 @@ ENDPROC
 
 
 DEF PROC r_weapons()
+
+  if weapon_reload > -1 then
+    weapon_reload = weapon_reload - 1
+  endif
 
   rgbColour(255,255,255)
   for i = 0 to max_lasers cycle
@@ -257,13 +263,17 @@ ENDPROC
 
 DEF PROC shoot_weapon()
 
+  if weapon_reload < 0 then     
+
   for i = 0 to max_lasers cycle
     if laser_z(i) < 0 then
       laser_z(i) = pos_z-19
       laser_x(i) = pos_x
       laser_mode(i) = weapon_mode
+      weapon_reload = weapon_reload_time
       break
     endif
   repeat
 
+  endif
 ENDPROC
