@@ -45,6 +45,7 @@ accel = 0.25
 max_lasers=128
 dim laser_x(max_lasers)
 dim laser_z(max_lasers)
+dim laser_mode(max_lasers)
 weapon_mode = 1
 
 #
@@ -86,9 +87,9 @@ DEF PROC pre_render()
 
 
   # fill lasers
-  for i = 0 to max_lasers cycle    
+  for i = 0 to max_lasers cycle
     laser_x(i) = -1
-    laser_z(i) = -1 
+    laser_z(i) = -1
   repeat
 
 ENDPROC
@@ -192,7 +193,7 @@ DEF PROC r_weapons()
     if laser_z(i) > 0 then
       zf = laser_z(i) * 0.05
       draw_x = laser_x(i) >> 0
-      if weapon_mode = 2 then
+      if laser_mode(i) = 2 then
         if i mod 2 = 0 then
           draw_x = draw_x - 3*zf >> 0
         else
@@ -200,7 +201,7 @@ DEF PROC r_weapons()
         endif
       endif
       draw_y = horizon-laser_z(i) >> 0
-      
+
       polyStart
         polyPlot(draw_x-(zf*0.5),draw_y)
         polyPlot(draw_x-(zf*0.5),draw_y-(zf*zf))
@@ -260,8 +261,9 @@ DEF PROC shoot_weapon()
     if laser_z(i) < 0 then
       laser_z(i) = pos_z-19
       laser_x(i) = pos_x
+      laser_mode(i) = weapon_mode
       break
     endif
-  repeat  
-  
+  repeat
+
 ENDPROC
